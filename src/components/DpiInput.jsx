@@ -9,8 +9,10 @@ export default function DpiInput({ value, onChange, error }) {
 				placeholder="e.g. 1600"
 				value={value}
 				onChange={(e) => onChange(e.target.value)}
+				aria-describedby={error ? "dpi-error" : undefined}
+				aria-invalid={error ? "true" : undefined}
 			/>
-			{error && <p className="error">{error}</p>}
+			{error && <p id="dpi-error" className="error" role="alert">{error}</p>}
 		</div>
 	);
 }

@@ -39,4 +39,14 @@ describe("App progressive reveal", () => {
 		fireEvent.change(screen.getByRole("slider"), { target: { value: "10" } });
 		expect(screen.getByText(/~2400 DPI/)).toBeTruthy();
 	});
+
+	it("clears the error and reveals results once the DPI is fixed", () => {
+		render(<App />);
+		const input = screen.getByLabelText(/mouse dpi/i);
+		fireEvent.change(input, { target: { value: "50" } });
+		expect(screen.getByText(/between 100 and 35000/i)).toBeTruthy();
+		fireEvent.change(input, { target: { value: "1600" } });
+		expect(screen.queryByText(/between 100 and 35000/i)).toBeNull();
+		expect(screen.getByRole("slider")).toBeTruthy();
+	});
 });
