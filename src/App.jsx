@@ -53,6 +53,9 @@ export default function App() {
 					<CrosshairIcon />
 				</span>
 				<nav className="nav-links" aria-label="Main">
+					<a href={`${REPO_URL}/blob/main/CONTRIBUTION.md`} target="_blank" rel="noreferrer">
+						Contribution
+					</a>
 					<a
 						className="icon-link"
 						href="https://github.com/RawAccelOfficial/rawaccel"
@@ -60,10 +63,7 @@ export default function App() {
 						rel="noreferrer"
 						aria-label="Raw Accel project"
 					>
-						<img src="/rawaccel.ico" width="22" height="22" alt="Raw Accel" />
-					</a>
-					<a href={`${REPO_URL}/blob/main/CONTRIBUTION.md`} target="_blank" rel="noreferrer">
-						Contribution
+						<img src="/rawaccel.ico" width="24" height="24" alt="Raw Accel" />
 					</a>
 					<a
 						className="gh-link"
@@ -110,34 +110,12 @@ export default function App() {
 					</>
 				)}
 			</main>
-			<footer className="foot card">
-				<div className="foot-grid">
-					<div className="foot-about">
-						<p className="foot-brand">rawaccel easy</p>
-						<p>
-							One DPI input, a complete Raw Accel setup. Free and open source, made for players
-							who want good acceleration without the parameter maze.
-						</p>
-					</div>
-					<nav className="foot-links" aria-label="Resources">
-						<p className="foot-title">Resources</p>
-						<a href={REPO_URL} target="_blank" rel="noreferrer">Source code</a>
-						<a href={`${REPO_URL}/issues`} target="_blank" rel="noreferrer">Report an issue</a>
-						<a href="https://github.com/RawAccelOfficial/rawaccel" target="_blank" rel="noreferrer">
-							Raw Accel
-						</a>
-						<a
-							href="https://github.com/RawAccelOfficial/rawaccel/blob/master/doc/Guide.md"
-							target="_blank"
-							rel="noreferrer"
-						>
-							Raw Accel guide
-						</a>
-					</nav>
-				</div>
-				<p className="foot-legal">
-					Settings target Raw Accel v1.7.x. Not affiliated with the Raw Accel project.
-				</p>
+			<footer className="foot">
+				<span className="foot-mark">
+					<CrosshairIcon />
+				</span>
+				<p>Free and open source. Targets Raw Accel v1.7.x.</p>
+				<p>Not affiliated with the Raw Accel project.</p>
 			</footer>
 		</div>
 	);
