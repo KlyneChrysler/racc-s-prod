@@ -26,22 +26,31 @@ export default function App() {
 
 	return (
 		<div className="sheet">
-			<header className="masthead">
-				<div>
-					<span className="pill">Open source</span>
-					<h1>Raw Accel Easy Config</h1>
-					<p className="tagline">Enter your mouse DPI. We decide everything else.</p>
-				</div>
-				<a
-					className="gh-link"
-					href={REPO_URL}
-					target="_blank"
-					rel="noreferrer"
-					aria-label="View the source code on GitHub"
-				>
-					<GitHubIcon />
-				</a>
+			<header className="nav">
+				<span className="brand">rawaccel easy</span>
+				<nav className="nav-links" aria-label="Main">
+					<a href="https://github.com/RawAccelOfficial/rawaccel" target="_blank" rel="noreferrer">
+						Raw Accel
+					</a>
+					<a href={`${REPO_URL}/issues`} target="_blank" rel="noreferrer">
+						Issues
+					</a>
+					<a
+						className="gh-link"
+						href={REPO_URL}
+						target="_blank"
+						rel="noreferrer"
+						aria-label="View the source code on GitHub"
+					>
+						<GitHubIcon />
+					</a>
+				</nav>
 			</header>
+			<section className="masthead">
+				<span className="pill">Open source</span>
+				<h1>Raw Accel Easy Config</h1>
+				<p className="tagline">Enter your mouse DPI. We decide everything else.</p>
+			</section>
 			<main className="flow">
 				<section className="card">
 					<p className="eyebrow">
@@ -72,9 +81,34 @@ export default function App() {
 					</>
 				)}
 			</main>
-			<footer className="foot">
-				<p>Free and open source. Generates Raw Accel v1.7.x settings.</p>
-				<p>Not affiliated with the Raw Accel project.</p>
+			<footer className="foot card">
+				<div className="foot-grid">
+					<div className="foot-about">
+						<p className="foot-brand">rawaccel easy</p>
+						<p>
+							One DPI input, a complete Raw Accel setup. Free and open source, made for players
+							who want good acceleration without the parameter maze.
+						</p>
+					</div>
+					<nav className="foot-links" aria-label="Resources">
+						<p className="foot-title">Resources</p>
+						<a href={REPO_URL} target="_blank" rel="noreferrer">Source code</a>
+						<a href={`${REPO_URL}/issues`} target="_blank" rel="noreferrer">Report an issue</a>
+						<a href="https://github.com/RawAccelOfficial/rawaccel" target="_blank" rel="noreferrer">
+							Raw Accel
+						</a>
+						<a
+							href="https://github.com/RawAccelOfficial/rawaccel/blob/master/doc/Guide.md"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Raw Accel guide
+						</a>
+					</nav>
+				</div>
+				<p className="foot-legal">
+					Settings target Raw Accel v1.7.x. Not affiliated with the Raw Accel project.
+				</p>
 			</footer>
 		</div>
 	);
