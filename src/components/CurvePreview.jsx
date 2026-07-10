@@ -19,7 +19,8 @@ export default function CurvePreview({ outputDpi }) {
 
 	return (
 		<figure className="curve">
-			<svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-label="Effective DPI versus mouse speed">
+			<svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="curve-title">
+				<title id="curve-title">Effective DPI versus mouse speed</title>
 				<line className="axis" x1={PAD} y1={HEIGHT - PAD} x2={WIDTH - PAD} y2={HEIGHT - PAD} />
 				<line className="axis" x1={PAD} y1={PAD} x2={PAD} y2={HEIGHT - PAD} />
 				<polyline className="plot" fill="none" points={points.join(" ")} />
