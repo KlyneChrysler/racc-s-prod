@@ -8,6 +8,28 @@ import { validateDpi, recommend } from "./lib/recommend.js";
 
 const REPO_URL = "https://github.com/KlyneChrysler/racc-s";
 
+function CrosshairIcon() {
+	return (
+		<svg
+			viewBox="0 0 24 24"
+			width="22"
+			height="22"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="1.8"
+			strokeLinecap="round"
+			aria-hidden="true"
+		>
+			<circle cx="12" cy="12" r="7" />
+			<line x1="12" y1="1.5" x2="12" y2="5.5" />
+			<line x1="12" y1="18.5" x2="12" y2="22.5" />
+			<line x1="1.5" y1="12" x2="5.5" y2="12" />
+			<line x1="18.5" y1="12" x2="22.5" y2="12" />
+			<circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+		</svg>
+	);
+}
+
 function GitHubIcon() {
 	return (
 		<svg viewBox="0 0 16 16" width="26" height="26" fill="currentColor" aria-hidden="true">
@@ -27,13 +49,21 @@ export default function App() {
 	return (
 		<div className="sheet">
 			<header className="nav">
-				<span className="brand">rawaccel easy</span>
+				<span className="brand" aria-label="Raw Accel Easy Config">
+					<CrosshairIcon />
+				</span>
 				<nav className="nav-links" aria-label="Main">
-					<a href="https://github.com/RawAccelOfficial/rawaccel" target="_blank" rel="noreferrer">
-						Raw Accel
+					<a
+						className="icon-link"
+						href="https://github.com/RawAccelOfficial/rawaccel"
+						target="_blank"
+						rel="noreferrer"
+						aria-label="Raw Accel project"
+					>
+						<img src="/rawaccel.ico" width="22" height="22" alt="Raw Accel" />
 					</a>
-					<a href={`${REPO_URL}/issues`} target="_blank" rel="noreferrer">
-						Issues
+					<a href={`${REPO_URL}/blob/main/CONTRIBUTION.md`} target="_blank" rel="noreferrer">
+						Contribution
 					</a>
 					<a
 						className="gh-link"
@@ -47,7 +77,6 @@ export default function App() {
 				</nav>
 			</header>
 			<section className="masthead">
-				<span className="pill">Open source</span>
 				<h1>Raw Accel Easy Config</h1>
 				<p className="tagline">Enter your mouse DPI. We decide everything else.</p>
 			</section>
