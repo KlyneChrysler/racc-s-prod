@@ -35,6 +35,13 @@ describe("outputDpiForNotch", () => {
 			expect(outputDpiForNotch(n)).toBeGreaterThan(outputDpiForNotch(n - 1));
 		}
 	});
+
+	it("clamps out-of-range notches to the 1-10 range", () => {
+		expect(outputDpiForNotch(0)).toBe(400);
+		expect(outputDpiForNotch(-5)).toBe(400);
+		expect(outputDpiForNotch(11)).toBe(2400);
+		expect(outputDpiForNotch(5.4)).toBe(outputDpiForNotch(5));
+	});
 });
 
 describe("recommend", () => {

@@ -17,8 +17,9 @@ export function validateDpi(value) {
 }
 
 export function outputDpiForNotch(notch) {
+	const clamped = Math.min(NOTCH_COUNT, Math.max(1, Math.round(notch)));
 	const ratio = OUTPUT_DPI_MAX / OUTPUT_DPI_MIN;
-	return Math.round(OUTPUT_DPI_MIN * Math.pow(ratio, (notch - 1) / (NOTCH_COUNT - 1)));
+	return Math.round(OUTPUT_DPI_MIN * Math.pow(ratio, (clamped - 1) / (NOTCH_COUNT - 1)));
 }
 
 export function recommend({ dpi, notch }) {
