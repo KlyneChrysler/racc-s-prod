@@ -1,7 +1,9 @@
 export default function SensNotch({ value, onChange }) {
 	return (
 		<div className="field">
-			<label htmlFor="notch">Sensitivity preference: {value}/10</label>
+			<label htmlFor="notch">
+				Sensitivity preference: <span className="notch-value">{value}/10</span>
+			</label>
 			<input
 				id="notch"
 				type="range"
