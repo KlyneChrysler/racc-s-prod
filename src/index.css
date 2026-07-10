@@ -1,0 +1,493 @@
+:root {
+	/* Perk tokens */
+	--color-electric-lime: #beff50;
+	--color-ink: #14140f;
+	--color-canvas: #ffffff;
+	--color-parchment: #f5f5eb;
+	--color-ash: #d2d2c8;
+	--color-graphite: #6e6e64;
+
+	--font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+	--radius-cards: 28px;
+	--radius-buttons: 28px;
+	--radius-inputs: 8px;
+	--radius-pills: 9999px;
+
+	color-scheme: light;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--color-parchment);
+	color: var(--color-ink);
+	font-family: var(--font-mono);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Single centered paper column */
+.sheet {
+	width: 100%;
+	max-width: 640px;
+	margin: 0 auto;
+	padding: 32px 16px 48px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+/* Header nav */
+.nav {
+	background: var(--color-canvas);
+	border-radius: var(--radius-pills);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 10px 12px 10px 24px;
+}
+
+.brand {
+	display: inline-flex;
+	align-items: center;
+	color: var(--color-ink);
+}
+
+.icon-link {
+	display: inline-flex;
+	align-items: center;
+	padding: 8px;
+}
+
+.icon-link img {
+	display: block;
+	border-radius: 4px;
+	transform: scale(1.25);
+}
+
+.nav-links {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.nav-links a {
+	color: var(--color-ink);
+	text-decoration: none;
+	font-size: 13px;
+	font-weight: 500;
+	padding: 8px 12px;
+	border-radius: var(--radius-pills);
+	transition: background 120ms ease;
+}
+
+.nav-links a:hover {
+	background: var(--color-parchment);
+}
+
+.nav-links a {
+	white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+	.nav {
+		padding: 8px 8px 8px 16px;
+	}
+
+	.nav-links a {
+		font-size: 12px;
+		padding: 8px;
+	}
+}
+
+/* Masthead */
+.masthead {
+	padding: 8px 8px 0;
+}
+
+.masthead h1 {
+	margin: 0;
+	font-size: clamp(26px, 6vw, 36px);
+	font-weight: 500;
+	line-height: 1.1;
+	letter-spacing: normal;
+}
+
+.tagline {
+	margin: 8px 0 0;
+	color: var(--color-graphite);
+}
+
+.nav-links .gh-link {
+	display: inline-flex;
+	padding: 8px;
+}
+
+.gh-link svg {
+	width: 22px;
+	height: 22px;
+	display: block;
+}
+
+/* Content flow */
+.flow {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+/* Bond paper cards */
+.card {
+	background: var(--color-canvas);
+	border-radius: var(--radius-cards);
+	padding: clamp(24px, 5vw, 36px);
+}
+
+.eyebrow {
+	margin: 0 0 16px;
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--color-graphite);
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.step-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	background: var(--color-electric-lime);
+	border: 1.5px solid var(--color-ink);
+	border-radius: var(--radius-pills);
+	color: var(--color-ink);
+	font-size: 12px;
+	font-weight: 500;
+	flex-shrink: 0;
+}
+
+/* Fields */
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.field label {
+	font-weight: 500;
+	font-size: 16px;
+}
+
+.field input[type="number"] {
+	background: var(--color-canvas);
+	border: 1px solid var(--color-ash);
+	border-radius: var(--radius-inputs);
+	color: #000000;
+	font-family: var(--font-mono);
+	font-size: 17px;
+	padding: 14px 16px;
+	width: 100%;
+}
+
+.field input[type="number"]:focus {
+	outline: 2px solid var(--color-ink);
+	outline-offset: -1px;
+}
+
+.field input[type="number"]::placeholder {
+	color: var(--color-graphite);
+}
+
+/* Range slider */
+.field input[type="range"] {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 100%;
+	height: 28px;
+	margin: 0;
+	background: transparent;
+	cursor: pointer;
+}
+
+.field input[type="range"]:focus {
+	outline: none;
+}
+
+.field input[type="range"]:focus-visible {
+	outline: 2px solid var(--color-ink);
+	outline-offset: 4px;
+	border-radius: var(--radius-pills);
+}
+
+.field input[type="range"]::-webkit-slider-runnable-track {
+	height: 4px;
+	background: var(--color-ash);
+	border-radius: var(--radius-pills);
+}
+
+.field input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 24px;
+	height: 24px;
+	margin-top: -10px;
+	border-radius: var(--radius-pills);
+	background: var(--color-electric-lime);
+	border: 2px solid var(--color-ink);
+}
+
+.field input[type="range"]::-moz-range-track {
+	height: 4px;
+	background: var(--color-ash);
+	border-radius: var(--radius-pills);
+}
+
+.field input[type="range"]::-moz-range-thumb {
+	width: 20px;
+	height: 20px;
+	border-radius: var(--radius-pills);
+	background: var(--color-electric-lime);
+	border: 2px solid var(--color-ink);
+}
+
+.notch-labels {
+	display: flex;
+	justify-content: space-between;
+	color: var(--color-graphite);
+	font-size: 12px;
+	font-weight: 500;
+}
+
+.notch-value {
+	background: var(--color-ink);
+	color: var(--color-parchment);
+	border-radius: var(--radius-pills);
+	font-size: 12px;
+	font-weight: 500;
+	padding: 3px 12px;
+	margin-left: 8px;
+}
+
+.error {
+	margin: 0;
+	color: var(--color-ink);
+	font-size: 14px;
+	font-weight: 500;
+	border-left: 2px solid var(--color-ink);
+	padding-left: 12px;
+}
+
+/* Curve preview */
+.curve {
+	margin: 0;
+}
+
+.curve svg {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.curve .axis {
+	stroke: var(--color-ash);
+	stroke-width: 1;
+}
+
+.curve .plot {
+	stroke: var(--color-ink);
+	stroke-width: 2;
+}
+
+.curve .ref {
+	stroke: var(--color-ash);
+	stroke-width: 1;
+	stroke-dasharray: 4 4;
+}
+
+.curve .tick {
+	font-family: var(--font-mono);
+	font-size: 10px;
+	fill: var(--color-graphite);
+}
+
+.curve .marker {
+	font-family: var(--font-mono);
+	font-size: 10px;
+	font-weight: 500;
+	fill: var(--color-ink);
+}
+
+.curve figcaption {
+	margin-top: 16px;
+	color: var(--color-graphite);
+	font-size: 12px;
+	font-weight: 500;
+	text-align: center;
+}
+
+/* Result card */
+.result {
+	background: var(--color-canvas);
+	border-radius: var(--radius-cards);
+	padding: clamp(24px, 5vw, 36px);
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.result .eyebrow {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.33;
+}
+
+.result p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.4;
+}
+
+.result strong {
+	font-weight: 500;
+	background: var(--color-electric-lime);
+	border-radius: 4px;
+	padding: 0 5px;
+	white-space: nowrap;
+}
+
+.result .note {
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--color-graphite);
+	border-left: 2px solid var(--color-electric-lime);
+	padding-left: 14px;
+}
+
+.result button {
+	margin-top: 4px;
+	background: var(--color-electric-lime);
+	border: none;
+	border-radius: var(--radius-buttons);
+	color: var(--color-ink);
+	cursor: pointer;
+	font-family: var(--font-mono);
+	font-size: 16px;
+	font-weight: 500;
+	padding: 16px 32px;
+	width: 100%;
+	transition: transform 120ms ease;
+}
+
+.result button:hover {
+	transform: translateY(-2px);
+}
+
+.result button:active {
+	transform: translateY(0);
+}
+
+/* Import guide card */
+.guide {
+	background: var(--color-canvas);
+	border-radius: var(--radius-cards);
+	padding: clamp(24px, 5vw, 36px);
+}
+
+.guide h2 {
+	margin: 0 0 16px;
+	font-size: 20px;
+	font-weight: 500;
+	letter-spacing: normal;
+}
+
+.guide ol {
+	margin: 0 0 16px;
+	padding-left: 22px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.guide ol li::marker {
+	color: var(--color-graphite);
+	font-weight: 500;
+}
+
+.guide .note {
+	margin: 0;
+	color: var(--color-graphite);
+	font-size: 14px;
+}
+
+code {
+	background: var(--color-parchment);
+	border: 1px solid var(--color-ash);
+	border-radius: 4px;
+	color: var(--color-ink);
+	font-size: 0.9em;
+	padding: 1px 6px;
+	overflow-wrap: break-word;
+}
+
+/* Footer */
+.foot {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	padding: 16px 8px 8px;
+	color: var(--color-graphite);
+	font-size: 12px;
+	text-align: center;
+}
+
+.foot p {
+	margin: 0;
+}
+
+.foot-mark {
+	color: var(--color-graphite);
+	margin-bottom: 6px;
+}
+
+/* Staggered reveal */
+@keyframes rise {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.reveal {
+	animation: rise 400ms ease both;
+}
+
+.delay-1 {
+	animation-delay: 80ms;
+}
+
+.delay-2 {
+	animation-delay: 160ms;
+}
+
+.delay-3 {
+	animation-delay: 240ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.reveal {
+		animation: none;
+	}
+}
