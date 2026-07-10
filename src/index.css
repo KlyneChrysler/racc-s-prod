@@ -1,1 +1,145 @@
-/* styles land in Task 8 */
+:root {
+	color-scheme: dark;
+	font-family: system-ui, -apple-system, sans-serif;
+}
+
+body {
+	margin: 0;
+	background: #111318;
+	color: #e8eaf0;
+}
+
+main {
+	max-width: 560px;
+	margin: 0 auto;
+	padding: 48px 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+h1 {
+	margin: 0;
+	font-size: 1.7rem;
+}
+
+.tagline {
+	margin: 0;
+	color: #9aa0ae;
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.field label {
+	font-weight: 600;
+}
+
+.field input[type="number"] {
+	background: #1a1d24;
+	border: 1px solid #2c313c;
+	border-radius: 8px;
+	color: inherit;
+	font-size: 1.1rem;
+	padding: 10px 12px;
+}
+
+.field input[type="range"] {
+	width: 100%;
+	accent-color: #5b8cff;
+}
+
+.notch-labels {
+	display: flex;
+	justify-content: space-between;
+	color: #9aa0ae;
+	font-size: 0.85rem;
+}
+
+.error {
+	margin: 0;
+	color: #ff7a7a;
+	font-size: 0.9rem;
+}
+
+.note {
+	margin: 0;
+	color: #ffc46b;
+	font-size: 0.9rem;
+}
+
+.result {
+	background: #1a1d24;
+	border: 1px solid #2c313c;
+	border-radius: 12px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.result p {
+	margin: 0;
+}
+
+.result button {
+	background: #5b8cff;
+	border: none;
+	border-radius: 8px;
+	color: #0b0d12;
+	cursor: pointer;
+	font-size: 1rem;
+	font-weight: 700;
+	padding: 12px;
+}
+
+.result button:hover {
+	background: #7aa2ff;
+}
+
+.curve {
+	margin: 0;
+}
+
+.curve svg {
+	width: 100%;
+	height: auto;
+}
+
+.curve .axis {
+	stroke: #2c313c;
+	stroke-width: 1;
+}
+
+.curve .plot {
+	stroke: #5b8cff;
+	stroke-width: 2;
+}
+
+.curve figcaption {
+	color: #9aa0ae;
+	font-size: 0.85rem;
+	text-align: center;
+}
+
+.guide h2 {
+	font-size: 1.1rem;
+	margin: 0 0 8px;
+}
+
+.guide ol {
+	margin: 0 0 12px;
+	padding-left: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+code {
+	background: #1a1d24;
+	border-radius: 4px;
+	padding: 1px 5px;
+}
