@@ -61,8 +61,10 @@ const EXPECTED_SPEED_KEYS = [
 	"Time in ms after which an output is weighted at half its original value."
 ];
 
+const MID_CURVE = { inputOffset: 11, decayRate: 0.1, limit: 1.5 };
+
 describe("buildSettings", () => {
-	const settings = buildSettings({ dpi: 1600, outputDpi: 887 });
+	const settings = buildSettings({ dpi: 1600, outputDpi: 887, curve: MID_CURVE });
 	const profile = settings.profiles[0];
 	const argsX = profile["Whole or horizontal accel parameters"];
 	const argsY = profile["Vertical accel parameters"];
@@ -86,10 +88,10 @@ describe("buildSettings", () => {
 		expect(settings.defaultDeviceConfig["DPI (normalizes input speed unit: counts/ms -> in/s)"]).toBe(1600);
 	});
 
-	it("applies the recommended natural curve on the whole/horizontal args", () => {
+	it("applies the given natural curve on the whole/horizontal args", () => {
 		expect(argsX.mode).toBe("natural");
 		expect(argsX["Gain / Velocity"]).toBe(true);
-		expect(argsX.inputOffset).toBe(10);
+		expect(argsX.inputOffset).toBe(11);
 		expect(argsX.decayRate).toBe(0.1);
 		expect(argsX.limit).toBe(1.5);
 	});
@@ -106,8 +108,8 @@ describe("buildSettings", () => {
 	});
 
 	it("returns a fresh object each call (no shared mutable state)", () => {
-		const a = buildSettings({ dpi: 800, outputDpi: 400 });
-		const b = buildSettings({ dpi: 800, outputDpi: 400 });
+		const a = buildSettings({ dpi: 800, outputDpi: 400, curve: MID_CURVE });
+		const b = buildSettings({ dpi: 800, outputDpi: 400, curve: MID_CURVE });
 		expect(a).not.toBe(b);
 		expect(a.profiles[0]).not.toBe(b.profiles[0]);
 		expect(a).toEqual(b);

@@ -16,7 +16,8 @@ export default function ResultPanel({ dpi, result }) {
 			<p className="eyebrow">Your recommendation</p>
 			<p>
 				Your mouse will feel like <strong>~{summary.outputDpi} DPI</strong> and ramp up to{" "}
-				<strong>{summary.limit}x</strong> on fast flicks. Slow, precise aim stays unaccelerated.
+				<strong>{summary.limit}x</strong> on fast flicks. Below {summary.inputOffset} inches per
+				second your aim stays one to one.
 			</p>
 			{summary.pixelSkipRisk && (
 				<p className="note">

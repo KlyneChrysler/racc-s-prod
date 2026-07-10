@@ -1,4 +1,4 @@
-import { naturalSens, RECOMMENDED_CURVE } from "../lib/curve.js";
+import { naturalSens } from "../lib/curve.js";
 
 const WIDTH = 460;
 const HEIGHT = 240;
@@ -10,20 +10,20 @@ const MAX_SPEED = 80;
 const STEPS = 120;
 const SPEED_TICKS = [0, 20, 40, 60, 80];
 
-export default function CurvePreview({ outputDpi }) {
-	const cap = Math.round(outputDpi * RECOMMENDED_CURVE.limit);
+export default function CurvePreview({ outputDpi, curve }) {
+	const cap = Math.round(outputDpi * curve.limit);
 	const maxY = cap * 1.15;
 	const plotW = WIDTH - PAD_LEFT - PAD_RIGHT;
 	const plotH = HEIGHT - PAD_TOP - PAD_BOTTOM;
 	const toX = (speed) => PAD_LEFT + (speed / MAX_SPEED) * plotW;
 	const toY = (dpi) => PAD_TOP + plotH - (dpi / maxY) * plotH;
-	const offsetX = toX(RECOMMENDED_CURVE.inputOffset);
+	const offsetX = toX(curve.inputOffset);
 	const baseline = HEIGHT - PAD_BOTTOM;
 
 	const points = [];
 	for (let i = 0; i <= STEPS; i++) {
 		const speed = (i / STEPS) * MAX_SPEED;
-		const effectiveDpi = naturalSens(speed, RECOMMENDED_CURVE) * outputDpi;
+		const effectiveDpi = naturalSens(speed, curve) * outputDpi;
 		points.push(`${toX(speed).toFixed(1)},${toY(effectiveDpi).toFixed(1)}`);
 	}
 

@@ -53,9 +53,6 @@ export default function App() {
 					<CrosshairIcon />
 				</span>
 				<nav className="nav-links" aria-label="Main">
-					<a href={`${REPO_URL}/blob/main/CONTRIBUTION.md`} target="_blank" rel="noreferrer">
-						Contribution
-					</a>
 					<a
 						className="icon-link"
 						href="https://github.com/RawAccelOfficial/rawaccel"
@@ -99,7 +96,7 @@ export default function App() {
 						</section>
 						<section className="card reveal delay-1">
 							<p className="eyebrow">Your curve</p>
-							<CurvePreview outputDpi={result.summary.outputDpi} />
+							<CurvePreview outputDpi={result.summary.outputDpi} curve={result.curve} />
 						</section>
 						<div className="reveal delay-2">
 							<ResultPanel dpi={validation.dpi} result={result} />

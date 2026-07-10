@@ -46,15 +46,26 @@ describe("outputDpiForNotch", () => {
 
 describe("recommend", () => {
 	it("wires DPI and notch into the settings file", () => {
-		const { settings, summary } = recommend({ dpi: 1600, notch: 5 });
+		const { settings, curve, summary } = recommend({ dpi: 1600, notch: 5 });
 		expect(settings.defaultDeviceConfig["DPI (normalizes input speed unit: counts/ms -> in/s)"]).toBe(1600);
 		expect(settings.profiles[0]["Output DPI"]).toBe(887);
-		expect(summary).toEqual({ outputDpi: 887, limit: 1.5, pixelSkipRisk: false });
+		expect(curve).toEqual({ inputOffset: 11, decayRate: 0.1, limit: 1.5 });
+		expect(summary).toEqual({ outputDpi: 887, limit: 1.5, inputOffset: 11, pixelSkipRisk: false });
+	});
+
+	it("adapts the curve character to the preference notch", () => {
+		const low = recommend({ dpi: 1600, notch: 1 });
+		const high = recommend({ dpi: 1600, notch: 10 });
+		const argsOf = (r) => r.settings.profiles[0]["Whole or horizontal accel parameters"];
+		expect(argsOf(low).inputOffset).toBe(15);
+		expect(argsOf(low).limit).toBe(1.7);
+		expect(argsOf(high).inputOffset).toBe(6);
+		expect(argsOf(high).limit).toBe(1.3);
 	});
 
 	it("flags pixel-skip risk when the effective DPI exceeds the mouse DPI", () => {
 		const { summary } = recommend({ dpi: 400, notch: 10 });
-		expect(summary).toEqual({ outputDpi: 2400, limit: 1.5, pixelSkipRisk: true });
+		expect(summary).toEqual({ outputDpi: 2400, limit: 1.3, inputOffset: 6, pixelSkipRisk: true });
 	});
 
 	it("does not flag risk when effective DPI equals mouse DPI", () => {

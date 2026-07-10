@@ -1,4 +1,3 @@
-import { RECOMMENDED_CURVE } from "./curve.js";
 
 function defaultAccelArgs() {
 	return {
@@ -22,7 +21,7 @@ function defaultAccelArgs() {
 	};
 }
 
-export function buildSettings({ dpi, outputDpi }) {
+export function buildSettings({ dpi, outputDpi, curve }) {
 	return {
 		"### Accel modes ###": "classic | jump | natural | synchronous | power | lut | noaccel",
 		"### Cap modes ###": "in_out | input | output",
@@ -41,9 +40,9 @@ export function buildSettings({ dpi, outputDpi }) {
 				"Whole or horizontal accel parameters": {
 					...defaultAccelArgs(),
 					"mode": "natural",
-					"inputOffset": RECOMMENDED_CURVE.inputOffset,
-					"decayRate": RECOMMENDED_CURVE.decayRate,
-					"limit": RECOMMENDED_CURVE.limit
+					"inputOffset": curve.inputOffset,
+					"decayRate": curve.decayRate,
+					"limit": curve.limit
 				},
 				"Vertical accel parameters": defaultAccelArgs(),
 				"Input speed calculation parameters": {

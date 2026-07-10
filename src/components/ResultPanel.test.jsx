@@ -9,6 +9,7 @@ describe("ResultPanel", () => {
 	it("shows the effective DPI summary and a download button", () => {
 		render(<ResultPanel dpi={1600} result={recommend({ dpi: 1600, notch: 5 })} />);
 		expect(screen.getByText(/~887 DPI/)).toBeTruthy();
+		expect(screen.getByText(/Below 11 inches per second/)).toBeTruthy();
 		expect(screen.getByRole("button", { name: /download settings\.json/i })).toBeTruthy();
 	});
 
