@@ -44,13 +44,19 @@ export default function App() {
 			</header>
 			<main className="flow">
 				<section className="card">
-					<p className="eyebrow">Step 01 · Your mouse</p>
+					<p className="eyebrow">
+						<span className="step-icon">1</span>
+						Your mouse
+					</p>
 					<DpiInput value={dpiText} onChange={setDpiText} error={showError ? validation.error : null} />
 				</section>
 				{result && (
 					<>
 						<section className="card reveal">
-							<p className="eyebrow">Step 02 · Preference</p>
+							<p className="eyebrow">
+								<span className="step-icon">2</span>
+								Preference
+							</p>
 							<SensNotch value={notch} onChange={setNotch} />
 						</section>
 						<section className="card reveal delay-1">

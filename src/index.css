@@ -7,7 +7,7 @@
 	--color-ash: #d2d2c8;
 	--color-graphite: #6e6e64;
 
-	--font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
 	--radius-cards: 28px;
 	--radius-buttons: 28px;
@@ -25,7 +25,7 @@ body {
 	margin: 0;
 	background: var(--color-parchment);
 	color: var(--color-ink);
-	font-family: var(--font-sans);
+	font-family: var(--font-mono);
 	font-size: 16px;
 	font-weight: 400;
 	line-height: 1.5;
@@ -57,7 +57,7 @@ body {
 	font-size: clamp(26px, 6vw, 36px);
 	font-weight: 500;
 	line-height: 1.1;
-	letter-spacing: -0.02em;
+	letter-spacing: normal;
 }
 
 .tagline {
@@ -72,8 +72,6 @@ body {
 	border-radius: var(--radius-pills);
 	font-size: 12px;
 	font-weight: 500;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
 	padding: 4px 14px;
 	margin-bottom: 12px;
 }
@@ -109,9 +107,25 @@ body {
 	margin: 0 0 16px;
 	font-size: 12px;
 	font-weight: 500;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
 	color: var(--color-graphite);
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.step-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	background: var(--color-electric-lime);
+	border: 1.5px solid var(--color-ink);
+	border-radius: var(--radius-pills);
+	color: var(--color-ink);
+	font-size: 12px;
+	font-weight: 500;
+	flex-shrink: 0;
 }
 
 /* Fields */
@@ -131,7 +145,7 @@ body {
 	border: 1px solid var(--color-ash);
 	border-radius: var(--radius-inputs);
 	color: #000000;
-	font-family: var(--font-sans);
+	font-family: var(--font-mono);
 	font-size: 17px;
 	padding: 14px 16px;
 	width: 100%;
@@ -203,8 +217,6 @@ body {
 	color: var(--color-graphite);
 	font-size: 12px;
 	font-weight: 500;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
 }
 
 .notch-value {
@@ -252,8 +264,6 @@ body {
 	color: var(--color-graphite);
 	font-size: 12px;
 	font-weight: 500;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
 	text-align: center;
 }
 
@@ -302,7 +312,7 @@ body {
 	border-radius: var(--radius-buttons);
 	color: var(--color-ink);
 	cursor: pointer;
-	font-family: var(--font-sans);
+	font-family: var(--font-mono);
 	font-size: 16px;
 	font-weight: 500;
 	padding: 16px 32px;
@@ -329,7 +339,7 @@ body {
 	margin: 0 0 16px;
 	font-size: 20px;
 	font-weight: 500;
-	letter-spacing: -0.01em;
+	letter-spacing: normal;
 }
 
 .guide ol {
