@@ -9,7 +9,7 @@ export default function ImportGuide() {
 					replacing the existing file.
 				</li>
 				<li>
-					Open Raw Accel and press <strong>Apply</strong> — or run{" "}
+					Open Raw Accel and press <strong>Apply</strong>, or run{" "}
 					<code>writer.exe settings.json</code> from that folder.
 				</li>
 			</ol>

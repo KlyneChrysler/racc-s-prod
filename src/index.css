@@ -6,7 +6,6 @@
 	--color-parchment: #f5f5eb;
 	--color-ash: #d2d2c8;
 	--color-graphite: #6e6e64;
-	--color-charcoal: #30302a;
 
 	--font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
@@ -24,7 +23,7 @@
 
 body {
 	margin: 0;
-	background: var(--color-canvas);
+	background: var(--color-parchment);
 	color: var(--color-ink);
 	font-family: var(--font-sans);
 	font-size: 16px;
@@ -33,65 +32,79 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-.page {
+/* Single centered paper column */
+.sheet {
+	width: 100%;
+	max-width: 640px;
+	margin: 0 auto;
+	padding: 32px 16px 48px;
 	display: flex;
 	flex-direction: column;
-	min-height: 100vh;
+	gap: 24px;
 }
 
-.shell {
-	width: 100%;
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 0 24px;
-}
-
-/* Navigation */
-.nav {
+/* Masthead */
+.masthead {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
-	padding: 24px 0;
+	gap: 16px;
+	padding: 8px 8px 0;
 }
 
-.logo {
-	font-size: 18px;
+.masthead h1 {
+	margin: 0;
+	font-size: clamp(26px, 6vw, 36px);
 	font-weight: 500;
+	line-height: 1.1;
 	letter-spacing: -0.02em;
 }
 
-.nav-link {
-	color: var(--color-ink);
-	text-decoration: none;
-	border-bottom: 1px solid var(--color-ink);
-	font-size: 14px;
-	font-weight: 500;
-	padding-bottom: 1px;
+.tagline {
+	margin: 8px 0 0;
+	color: var(--color-graphite);
 }
 
-/* Hero — lime accent surface */
-.hero {
+.pill {
+	display: inline-block;
 	background: var(--color-electric-lime);
-	border-radius: var(--radius-cards);
-	padding: 72px 48px;
-}
-
-.display {
-	margin: 0;
-	font-size: clamp(48px, 8vw, 80px);
-	font-weight: 500;
-	line-height: 0.9;
-	letter-spacing: -0.03em;
-}
-
-.hero-sub {
-	margin: 24px 0 0;
-	max-width: 460px;
-	font-size: 17px;
 	color: var(--color-ink);
+	border-radius: var(--radius-pills);
+	font-size: 12px;
+	font-weight: 500;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding: 4px 14px;
+	margin-bottom: 12px;
 }
 
-/* Eyebrow labels */
+.gh-link {
+	color: var(--color-ink);
+	display: inline-flex;
+	padding: 8px;
+	border-radius: var(--radius-pills);
+	transition: transform 120ms ease;
+	flex-shrink: 0;
+}
+
+.gh-link:hover {
+	transform: translateY(-2px);
+}
+
+/* Content flow */
+.flow {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+/* Bond paper cards */
+.card {
+	background: var(--color-canvas);
+	border-radius: var(--radius-cards);
+	padding: clamp(24px, 5vw, 36px);
+}
+
 .eyebrow {
 	margin: 0 0 16px;
 	font-size: 12px;
@@ -99,31 +112,6 @@ body {
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	color: var(--color-graphite);
-}
-
-.hero .eyebrow {
-	color: var(--color-ink);
-}
-
-/* Content flow */
-.flow {
-	display: flex;
-	flex-direction: column;
-	gap: 24px;
-	max-width: 720px;
-	margin: 24px auto 96px;
-}
-
-/* Panels — parchment and white surfaces, tonal contrast only */
-.panel {
-	background: var(--color-parchment);
-	border-radius: var(--radius-cards);
-	padding: 40px;
-}
-
-.panel-white {
-	background: var(--color-canvas);
-	border: 1px solid var(--color-ash);
 }
 
 /* Fields */
@@ -146,6 +134,7 @@ body {
 	font-family: var(--font-sans);
 	font-size: 17px;
 	padding: 14px 16px;
+	width: 100%;
 }
 
 .field input[type="number"]:focus {
@@ -157,7 +146,7 @@ body {
 	color: var(--color-graphite);
 }
 
-/* Range slider — lime thumb on ash track */
+/* Range slider */
 .field input[type="range"] {
 	-webkit-appearance: none;
 	appearance: none;
@@ -268,47 +257,46 @@ body {
 	text-align: center;
 }
 
-/* Result — dark island */
+/* Result card */
 .result {
-	background: var(--color-charcoal);
-	color: var(--color-parchment);
+	background: var(--color-canvas);
 	border-radius: var(--radius-cards);
-	padding: 48px 40px;
+	padding: clamp(24px, 5vw, 36px);
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 16px;
 }
 
 .result .eyebrow {
 	margin: 0;
-	color: var(--color-ash);
 	font-size: 12px;
 	line-height: 1.33;
-	letter-spacing: 0.1em;
 }
 
 .result p {
 	margin: 0;
-	font-size: 22px;
-	line-height: 1.3;
-	letter-spacing: -0.01em;
+	font-size: 18px;
+	line-height: 1.4;
 }
 
 .result strong {
 	font-weight: 500;
-	color: var(--color-electric-lime);
+	background: var(--color-electric-lime);
+	border-radius: 4px;
+	padding: 0 5px;
+	white-space: nowrap;
 }
 
 .result .note {
 	font-size: 14px;
 	line-height: 1.5;
-	color: var(--color-ash);
+	color: var(--color-graphite);
 	border-left: 2px solid var(--color-electric-lime);
-	padding-left: 16px;
+	padding-left: 14px;
 }
 
 .result button {
-	margin-top: 8px;
+	margin-top: 4px;
 	background: var(--color-electric-lime);
 	border: none;
 	border-radius: var(--radius-buttons);
@@ -318,6 +306,7 @@ body {
 	font-size: 16px;
 	font-weight: 500;
 	padding: 16px 32px;
+	width: 100%;
 	transition: transform 120ms ease;
 }
 
@@ -329,22 +318,23 @@ body {
 	transform: translateY(0);
 }
 
-/* Import guide — editorial list above the footer rule */
+/* Import guide card */
 .guide {
-	border-top: 1px solid var(--color-ash);
-	padding: 40px 8px 0;
+	background: var(--color-canvas);
+	border-radius: var(--radius-cards);
+	padding: clamp(24px, 5vw, 36px);
 }
 
 .guide h2 {
-	margin: 0 0 20px;
-	font-size: 22px;
+	margin: 0 0 16px;
+	font-size: 20px;
 	font-weight: 500;
 	letter-spacing: -0.01em;
 }
 
 .guide ol {
 	margin: 0 0 16px;
-	padding-left: 24px;
+	padding-left: 22px;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
@@ -368,29 +358,19 @@ code {
 	color: var(--color-ink);
 	font-size: 0.9em;
 	padding: 1px 6px;
+	overflow-wrap: break-word;
 }
 
-/* Footer — the page's single inverted band */
-.footer {
-	margin-top: auto;
-	background: var(--color-ink);
-	color: var(--color-parchment);
+/* Footer */
+.foot {
+	padding: 8px 8px 0;
+	color: var(--color-graphite);
+	font-size: 13px;
+	text-align: center;
 }
 
-.footer-inner {
-	display: flex;
-	justify-content: space-between;
-	gap: 16px;
-	flex-wrap: wrap;
-	padding-top: 40px;
-	padding-bottom: 40px;
-	font-size: 14px;
-}
-
-.footer a {
-	color: var(--color-parchment);
-	text-decoration: none;
-	border-bottom: 1px solid var(--color-parchment);
+.foot p {
+	margin: 0 0 4px;
 }
 
 /* Staggered reveal */
@@ -424,19 +404,5 @@ code {
 @media (prefers-reduced-motion: reduce) {
 	.reveal {
 		animation: none;
-	}
-}
-
-@media (max-width: 640px) {
-	.hero {
-		padding: 48px 28px;
-	}
-
-	.panel {
-		padding: 28px 24px;
-	}
-
-	.result {
-		padding: 36px 28px;
 	}
 }
