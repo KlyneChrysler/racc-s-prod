@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
@@ -7,7 +7,7 @@ export default defineConfig({
 		environment: "jsdom",
 		coverage: {
 			include: ["src/**"],
-			exclude: ["src/main.jsx"]
+			exclude: ["src/main.tsx"]
 		}
 	}
 });

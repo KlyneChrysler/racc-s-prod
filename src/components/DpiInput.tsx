@@ -1,4 +1,10 @@
-export default function DpiInput({ value, onChange, error }) {
+interface DpiInputProps {
+	value: string;
+	onChange: (value: string) => void;
+	error: string | null;
+}
+
+export default function DpiInput({ value, onChange, error }: DpiInputProps) {
 	return (
 		<div className="field">
 			<label htmlFor="dpi">Mouse DPI</label>

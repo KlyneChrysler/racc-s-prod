@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildSettings } from "./settingsTemplate.js";
+import { buildSettings } from "./settingsTemplate";
 
 const EXPECTED_ROOT_KEYS = [
 	"### Accel modes ###",

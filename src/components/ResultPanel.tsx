@@ -1,4 +1,11 @@
-export default function ResultPanel({ dpi, result }) {
+import type { Recommendation } from "../lib/recommend";
+
+interface ResultPanelProps {
+	dpi: number;
+	result: Recommendation;
+}
+
+export default function ResultPanel({ dpi, result }: ResultPanelProps) {
 	const { settings, summary } = result;
 
 	function download() {

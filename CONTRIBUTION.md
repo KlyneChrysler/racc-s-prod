@@ -5,8 +5,8 @@ Thanks for your interest. This project is free and open source, and contribution
 ## Getting started
 
 ```bash
-git clone git@github.com:KlyneChrysler/racc-s.git
-cd racc-s
+git clone git@github.com:KlyneChrysler/racc-s-prod.git
+cd racc-s-prod
 npm install
 npm run dev
 ```
@@ -17,6 +17,7 @@ npm run dev
 
 ```bash
 npm test
+npm run typecheck
 npm run coverage
 ```
 
@@ -31,7 +32,7 @@ npm run build
 ## Code style
 
 - Tabs for indentation, semicolons, double quotes
-- `.jsx` for files with JSX, `export default function` for components
+- TypeScript everywhere: `.tsx` for components, `.ts` for logic, strict mode on
 - IBM Plex Mono is the only typeface, weights 400 and 500 only
 - No em dashes in UI copy, sentence case everywhere, no all caps
 - Pure logic lives in `src/lib/`, components stay thin
@@ -42,7 +43,7 @@ Use the form `<type>: <description>` in lowercase imperative, under 72 character
 
 ## Reporting issues
 
-Open an issue at https://github.com/KlyneChrysler/racc-s/issues with your mouse DPI, the notch you picked, and what felt wrong. If Raw Accel rejected a generated file, attach the settings.json.
+Open an issue at https://github.com/KlyneChrysler/racc-s-prod/issues with your mouse DPI, the notch you picked, and what felt wrong. If Raw Accel rejected a generated file, attach the settings.json.
 
 ## Scope
 
