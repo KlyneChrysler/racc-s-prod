@@ -7,6 +7,11 @@ interface Update {
 const UPDATES: Update[] = [
 	{
 		date: "Jul 11, 2026",
+		title: "Crosshair favicon and share cards",
+		note: "The app now has its own browser icon and rich link previews."
+	},
+	{
+		date: "Jul 11, 2026",
 		title: "Smarter recommendations",
 		note: "Contextual tips plus a cm per screen stat, tuned to your DPI and preference."
 	},
