@@ -8,6 +8,11 @@ export const DPI_MAX = 35000;
 
 const OUTPUT_DPI_MIN = 400;
 const OUTPUT_DPI_MAX = 2400;
+const LOW_DPI_SENSOR = 800;
+const LOW_SENS_NOTCH = 20;
+const HIGH_SENS_NOTCH = 80;
+const SCREEN_WIDTH_PX = 1920;
+const CM_PER_INCH = 2.54;
 
 export type DpiValidation = { valid: true; dpi: number } | { valid: false; error: string };
 
@@ -16,6 +21,8 @@ export interface Summary {
 	limit: number;
 	inputOffset: number;
 	pixelSkipRisk: boolean;
+	cmPerScreen: number;
+	tips: string[];
 }
 
 export interface Recommendation {
@@ -37,9 +44,36 @@ export function outputDpiForNotch(notch: number): number {
 	return Math.round(OUTPUT_DPI_MIN * Math.pow(OUTPUT_DPI_MAX / OUTPUT_DPI_MIN, t));
 }
 
+function tipsFor(dpi: number, notch: number, pixelSkipRisk: boolean): string[] {
+	const tips: string[] = [];
+	if (pixelSkipRisk) {
+		tips.push(
+			`This feel is above your mouse's ${dpi} DPI, so the desktop cursor may feel slightly steppy. Games with raw input are unaffected.`
+		);
+	}
+	if (dpi < LOW_DPI_SENSOR) {
+		tips.push(
+			"Sensors track more smoothly at higher hardware DPI. Raise it in your mouse software if you can; DPI normalization keeps this exact feel."
+		);
+	}
+	if (notch <= LOW_SENS_NOTCH) {
+		tips.push(
+			"Low sens setups expect big arm swipes. A large mousepad helps you stay below the accel threshold during precise aim."
+		);
+	}
+	if (notch >= HIGH_SENS_NOTCH) {
+		tips.push(
+			"High sens magnifies small wrist movements. If aim feels twitchy, step the preference down a few notches."
+		);
+	}
+	return tips;
+}
+
 export function recommend({ dpi, notch }: { dpi: number; notch: number }): Recommendation {
-	const outputDpi = outputDpiForNotch(notch);
-	const curve = curveForNotch(notch);
+	const clamped = clampNotch(notch);
+	const outputDpi = outputDpiForNotch(clamped);
+	const curve = curveForNotch(clamped);
+	const pixelSkipRisk = outputDpi > dpi;
 	return {
 		settings: buildSettings({ dpi, outputDpi, curve }),
 		curve,
@@ -47,7 +81,9 @@ export function recommend({ dpi, notch }: { dpi: number; notch: number }): Recom
 			outputDpi,
 			limit: curve.limit,
 			inputOffset: curve.inputOffset,
-			pixelSkipRisk: outputDpi > dpi
+			pixelSkipRisk,
+			cmPerScreen: Math.round((SCREEN_WIDTH_PX / outputDpi) * CM_PER_INCH * 10) / 10,
+			tips: tipsFor(dpi, clamped, pixelSkipRisk)
 		}
 	};
 }

@@ -24,6 +24,12 @@ describe("App landing", () => {
 		expect(screen.queryByText(/click anywhere to start/i)).toBeNull();
 	});
 
+	it("shows the updates aside on the tool screen", () => {
+		renderAndStart();
+		expect(screen.getByRole("complementary", { name: /app updates/i })).toBeTruthy();
+		expect(screen.getByText(/100 sensitivity notches/i)).toBeTruthy();
+	});
+
 	it("starts the tool with the keyboard", () => {
 		render(<App />);
 		fireEvent.keyDown(screen.getByRole("button", { name: /click anywhere to start/i }), { key: "Enter" });

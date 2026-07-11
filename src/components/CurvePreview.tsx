@@ -10,6 +10,8 @@ const PAD_BOTTOM = 44;
 const MAX_SPEED = 80;
 const STEPS = 120;
 const SPEED_TICKS = [0, 20, 40, 60, 80];
+const ZONE_MIN_WIDTH = 44;
+const CAP_REACHED_FRACTION = Math.log(100);
 
 interface CurvePreviewProps {
 	outputDpi: number;
@@ -26,11 +28,28 @@ export default function CurvePreview({ outputDpi, curve }: CurvePreviewProps) {
 	const offsetX = toX(curve.inputOffset);
 	const baseline = HEIGHT - PAD_BOTTOM;
 
+	// Where the curve reaches half of, then 99 percent of, the extra gain.
+	const halfwaySpeed = curve.inputOffset + Math.log(2) / curve.decayRate;
+	const halfwayDpi = ((1 + curve.limit) / 2) * outputDpi;
+	const cappedSpeed = Math.min(curve.inputOffset + CAP_REACHED_FRACTION / curve.decayRate, MAX_SPEED);
+
 	const points: string[] = [];
 	for (let i = 0; i <= STEPS; i++) {
 		const speed = (i / STEPS) * MAX_SPEED;
 		const effectiveDpi = naturalSens(speed, curve) * outputDpi;
 		points.push(`${toX(speed).toFixed(1)},${toY(effectiveDpi).toFixed(1)}`);
+	}
+
+	function zoneLabel(from: number, to: number, label: string) {
+		const width = ((to - from) / MAX_SPEED) * plotW;
+		if (width < ZONE_MIN_WIDTH) {
+			return null;
+		}
+		return (
+			<text className="zone" x={toX((from + to) / 2)} y={baseline - 8} textAnchor="middle">
+				{label}
+			</text>
+		);
 	}
 
 	return (
@@ -55,6 +74,10 @@ export default function CurvePreview({ outputDpi, curve }: CurvePreviewProps) {
 				<text className="marker" x={WIDTH - PAD_RIGHT} y={toY(outputDpi) + 14} textAnchor="end">base sens</text>
 				<text className="marker" x={offsetX + 6} y={PAD_TOP + 9}>accel starts</text>
 
+				{zoneLabel(0, curve.inputOffset, "precise")}
+				{zoneLabel(curve.inputOffset, cappedSpeed, "accelerating")}
+				{zoneLabel(cappedSpeed, MAX_SPEED, "at cap")}
+
 				{SPEED_TICKS.map((s) => (
 					<g key={s}>
 						<line className="axis" x1={toX(s)} y1={baseline} x2={toX(s)} y2={baseline + 4} />
@@ -66,6 +89,15 @@ export default function CurvePreview({ outputDpi, curve }: CurvePreviewProps) {
 				</text>
 
 				<polyline className="plot" fill="none" points={points.join(" ")} />
+				<circle
+					className="halfway"
+					cx={toX(halfwaySpeed)}
+					cy={toY(halfwayDpi)}
+					r="4.5"
+				/>
+				<text className="marker" x={toX(halfwaySpeed) + 8} y={toY(halfwayDpi) + 14}>
+					halfway
+				</text>
 			</svg>
 			<figcaption>
 				Effective DPI vs. mouse speed. Slow aim stays at your base sens, fast flicks ramp up to the cap.

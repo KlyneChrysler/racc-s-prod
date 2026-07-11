@@ -19,6 +19,7 @@ export default function SensNotch({ value, onChange }: SensNotchProps) {
 				step="1"
 				value={value}
 				onChange={(e) => onChange(Number(e.target.value))}
+				data-tip="Drag to tune how fast your aim feels"
 			/>
 			<div className="notch-labels">
 				<span>Low sens</span>
