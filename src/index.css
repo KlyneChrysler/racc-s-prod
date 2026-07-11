@@ -491,6 +491,23 @@ body {
 	stroke-width: 1.5;
 }
 
+.curve .gain {
+	stroke: var(--color-graphite);
+	stroke-width: 1.2;
+	stroke-dasharray: 5 4;
+}
+
+.curve .grid {
+	stroke: var(--color-parchment);
+	stroke-width: 1;
+}
+
+.curve .mouse {
+	stroke: var(--color-graphite);
+	stroke-width: 1;
+	stroke-dasharray: 2 5;
+}
+
 .curve figcaption {
 	margin-top: 16px;
 	color: var(--color-graphite);

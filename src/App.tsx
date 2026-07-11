@@ -66,7 +66,7 @@ export default function App() {
 							error={!validation.valid && dpiText !== "" ? validation.error : null}
 						/>
 					</section>
-					{result && (
+					{validation.valid && result && (
 						<>
 							<section className="card reveal">
 								<p className="eyebrow">
@@ -77,7 +77,7 @@ export default function App() {
 							</section>
 							<section className="card reveal delay-1">
 								<p className="eyebrow">Your curve</p>
-								<CurvePreview outputDpi={result.summary.outputDpi} curve={result.curve} />
+								<CurvePreview outputDpi={result.summary.outputDpi} curve={result.curve} dpi={validation.dpi} />
 							</section>
 							<div className="reveal delay-2">
 								<ResultPanel result={result} />
