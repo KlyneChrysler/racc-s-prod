@@ -52,7 +52,14 @@ describe("recommend", () => {
 		expect(settings.defaultDeviceConfig["DPI (normalizes input speed unit: counts/ms -> in/s)"]).toBe(1600);
 		expect(settings.profiles[0]["Output DPI"]).toBe(971);
 		expect(curve).toEqual({ inputOffset: 10.5, decayRate: 0.1, limit: 1.5 });
-		expect(summary).toEqual({ outputDpi: 971, limit: 1.5, inputOffset: 10.5, pixelSkipRisk: false });
+		expect(summary).toEqual({
+			outputDpi: 971,
+			limit: 1.5,
+			inputOffset: 10.5,
+			pixelSkipRisk: false,
+			cmPerScreen: 5,
+			tips: []
+		});
 	});
 
 	it("adapts the curve character to the preference notch", () => {
@@ -66,9 +73,20 @@ describe("recommend", () => {
 		expect(argsOf(high).limit).toBe(1.3);
 	});
 
-	it("flags pixel-skip risk when the effective DPI exceeds the mouse DPI", () => {
+	it("flags pixel-skip risk and stacks contextual tips", () => {
 		const { summary } = recommend({ dpi: 400, notch: 100 });
-		expect(summary).toEqual({ outputDpi: 2400, limit: 1.3, inputOffset: 6, pixelSkipRisk: true });
+		expect(summary.pixelSkipRisk).toBe(true);
+		expect(summary.cmPerScreen).toBe(2);
+		expect(summary.tips).toHaveLength(3);
+		expect(summary.tips.join(" ")).toMatch(/steppy/);
+		expect(summary.tips.join(" ")).toMatch(/hardware DPI/);
+		expect(summary.tips.join(" ")).toMatch(/twitchy/);
+	});
+
+	it("suggests a large mousepad for low sens preferences", () => {
+		const { summary } = recommend({ dpi: 1600, notch: 10 });
+		expect(summary.tips).toHaveLength(1);
+		expect(summary.tips[0]).toMatch(/arm swipes/);
 	});
 
 	it("does not flag risk when effective DPI equals mouse DPI", () => {

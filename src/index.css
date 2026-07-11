@@ -32,15 +32,99 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-/* Single centered paper column */
+/* Centered paper column with an updates aside on wide screens */
+.frame {
+	display: grid;
+	grid-template-columns: minmax(0, 640px);
+	justify-content: center;
+	gap: 0 24px;
+	padding: 0 16px;
+}
+
 .sheet {
 	width: 100%;
-	max-width: 640px;
-	margin: 0 auto;
-	padding: 32px 16px 48px;
+	min-width: 0;
+	padding: 32px 0 48px;
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
+}
+
+.updates {
+	margin: 0 0 48px;
+	font-size: 13px;
+}
+
+.updates ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.updates li {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	border-top: 1px solid var(--color-parchment);
+	padding-top: 12px;
+}
+
+.updates li:first-child {
+	border-top: 0;
+	padding-top: 0;
+}
+
+.update-date {
+	color: var(--color-graphite);
+	font-size: 11px;
+}
+
+.update-title {
+	font-weight: 500;
+}
+
+.update-note {
+	color: var(--color-graphite);
+}
+
+@media (min-width: 1080px) {
+	.frame {
+		grid-template-columns: minmax(0, 640px) 280px;
+	}
+
+	.updates {
+		position: sticky;
+		top: 24px;
+		align-self: start;
+		margin: 32px 0 0;
+	}
+}
+
+/* Tooltips for buttons and controls */
+[data-tip] {
+	position: relative;
+}
+
+[data-tip]:hover::after,
+[data-tip]:focus-visible::after {
+	content: attr(data-tip);
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 50%;
+	transform: translateX(-50%);
+	background: var(--color-ink);
+	color: var(--color-parchment);
+	border-radius: var(--radius-pills);
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 1.4;
+	padding: 5px 12px;
+	white-space: nowrap;
+	pointer-events: none;
+	z-index: 20;
 }
 
 /* Header nav */
@@ -395,6 +479,18 @@ body {
 	fill: var(--color-ink);
 }
 
+.curve .zone {
+	font-family: var(--font-mono);
+	font-size: 9px;
+	fill: var(--color-graphite);
+}
+
+.curve .halfway {
+	fill: var(--color-electric-lime);
+	stroke: var(--color-ink);
+	stroke-width: 1.5;
+}
+
 .curve figcaption {
 	margin-top: 16px;
 	color: var(--color-graphite);
@@ -419,26 +515,50 @@ body {
 	line-height: 1.33;
 }
 
-.result p {
+.stats {
 	margin: 0;
-	font-size: 18px;
-	line-height: 1.4;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
 }
 
-.result strong {
-	font-weight: 500;
+.stat {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.stat dt {
+	color: var(--color-graphite);
+	font-size: 11px;
+}
+
+.stat dd {
+	margin: 0;
+	align-self: flex-start;
 	background: var(--color-electric-lime);
 	border-radius: 4px;
-	padding: 0 5px;
+	font-size: 17px;
+	font-weight: 500;
+	padding: 1px 7px;
 	white-space: nowrap;
 }
 
-.result .note {
-	font-size: 14px;
+.tips {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.tips li {
+	font-size: 13px;
 	line-height: 1.5;
 	color: var(--color-graphite);
 	border-left: 2px solid var(--color-electric-lime);
-	padding-left: 14px;
+	padding-left: 12px;
 }
 
 .result button {
@@ -472,18 +592,19 @@ body {
 }
 
 .guide h2 {
-	margin: 0 0 16px;
-	font-size: 20px;
+	margin: 0 0 14px;
+	font-size: 16px;
 	font-weight: 500;
 	letter-spacing: normal;
 }
 
 .guide ol {
-	margin: 0 0 16px;
+	margin: 0 0 14px;
 	padding-left: 22px;
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 8px;
+	font-size: 14px;
 }
 
 .guide ol li::marker {
@@ -494,7 +615,7 @@ body {
 .guide .note {
 	margin: 0;
 	color: var(--color-graphite);
-	font-size: 14px;
+	font-size: 12px;
 }
 
 code {

@@ -36,6 +36,15 @@ describe("CurvePreview", () => {
 		expect(texts).toContain("680");
 	});
 
+	it("marks the speed zones and the halfway point", () => {
+		const { container } = render(<CurvePreview outputDpi={971} curve={MID_CURVE} />);
+		const texts = svgTexts(container);
+		expect(texts.join(" ")).toMatch(/accelerating/);
+		expect(texts.join(" ")).toMatch(/at cap/);
+		expect(texts.join(" ")).toMatch(/halfway/);
+		expect(container.querySelector("circle.halfway")).toBeTruthy();
+	});
+
 	it("shows speed ticks on the x axis", () => {
 		const { container } = render(<CurvePreview outputDpi={971} curve={MID_CURVE} />);
 		const texts = svgTexts(container);

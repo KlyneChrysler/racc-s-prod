@@ -1,11 +1,10 @@
 import type { Recommendation } from "../lib/recommend";
 
 interface ResultPanelProps {
-	dpi: number;
 	result: Recommendation;
 }
 
-export default function ResultPanel({ dpi, result }: ResultPanelProps) {
+export default function ResultPanel({ result }: ResultPanelProps) {
 	const { settings, summary } = result;
 
 	function download() {
@@ -21,18 +20,38 @@ export default function ResultPanel({ dpi, result }: ResultPanelProps) {
 	return (
 		<section className="result">
 			<p className="eyebrow">Your recommendation</p>
-			<p>
-				Your mouse will feel like <strong>~{summary.outputDpi} DPI</strong> and ramp up to{" "}
-				<strong>{summary.limit}x</strong> on fast flicks. Below {summary.inputOffset} inches per
-				second your aim stays one to one.
-			</p>
-			{summary.pixelSkipRisk && (
-				<p className="note">
-					Heads up: this feel is above your mouse&apos;s {dpi} DPI, so the desktop cursor may feel
-					slightly steppy. Games with raw input are unaffected.
-				</p>
+			<dl className="stats">
+				<div className="stat">
+					<dt>feels like</dt>
+					<dd>~{summary.outputDpi} DPI</dd>
+				</div>
+				<div className="stat">
+					<dt>flick cap</dt>
+					<dd>{summary.limit}x</dd>
+				</div>
+				<div className="stat">
+					<dt>accel starts at</dt>
+					<dd>{summary.inputOffset} in/s</dd>
+				</div>
+				<div className="stat">
+					<dt>to cross a 1080p screen</dt>
+					<dd>{summary.cmPerScreen} cm</dd>
+				</div>
+			</dl>
+			{summary.tips.length > 0 && (
+				<ul className="tips">
+					{summary.tips.map((tip) => (
+						<li key={tip}>{tip}</li>
+					))}
+				</ul>
 			)}
-			<button type="button" onClick={download}>Download settings.json</button>
+			<button
+				type="button"
+				data-tip="Saves a ready to import settings.json"
+				onClick={download}
+			>
+				Download settings.json
+			</button>
 		</section>
 	);
 }
