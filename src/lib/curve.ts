@@ -33,9 +33,46 @@ export function curveForNotch(notch: number): Curve {
 	};
 }
 
-export function naturalSens(speed: number, { inputOffset, decayRate, limit }: Curve): number {
+/*
+ * The generated settings use Raw Accel's natural mode with the gain switch on.
+ * In gain mode the curve below defines the GAIN (the derivative of output vs
+ * input speed), and the sensitivity the driver actually applies at speed v is
+ * the average gain up to v: sens(v) = (1/v) * integral of gain from 0 to v.
+ * naturalGain is the gain curve; naturalSens is the exact applied multiplier.
+ */
+export function naturalGain(speed: number, { inputOffset, decayRate, limit }: Curve): number {
 	if (speed <= inputOffset) {
 		return 1;
 	}
 	return limit - (limit - 1) * Math.exp(-decayRate * (speed - inputOffset));
+}
+
+export function naturalSens(speed: number, curve: Curve): number {
+	const { inputOffset, decayRate, limit } = curve;
+	if (speed <= inputOffset) {
+		return 1;
+	}
+	const x = speed - inputOffset;
+	const integral = speed + (limit - 1) * (x + (Math.exp(-decayRate * x) - 1) / decayRate);
+	return integral / speed;
+}
+
+export function speedAtSens(target: number, curve: Curve, maxSpeed = 400): number | null {
+	if (target <= 1) {
+		return curve.inputOffset;
+	}
+	if (naturalSens(maxSpeed, curve) < target) {
+		return null;
+	}
+	let lo = curve.inputOffset;
+	let hi = maxSpeed;
+	for (let i = 0; i < 60; i++) {
+		const mid = (lo + hi) / 2;
+		if (naturalSens(mid, curve) < target) {
+			lo = mid;
+		} else {
+			hi = mid;
+		}
+	}
+	return (lo + hi) / 2;
 }

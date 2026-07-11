@@ -1,4 +1,4 @@
-import { naturalSens } from "../lib/curve";
+import { naturalSens, naturalGain, speedAtSens } from "../lib/curve";
 import type { Curve } from "../lib/curve";
 
 const WIDTH = 460;
@@ -11,42 +11,46 @@ const MAX_SPEED = 80;
 const STEPS = 120;
 const SPEED_TICKS = [0, 20, 40, 60, 80];
 const ZONE_MIN_WIDTH = 44;
-const CAP_REACHED_FRACTION = Math.log(100);
+const GAIN_CAPPED_FRACTION = Math.log(100);
+/* Fixed absolute scale: max possible cap is 2400 * 1.3 = 3120, so every
+ * notch and DPI change moves the chart instead of being rescaled away. */
+const Y_MAX = 3400;
+const GRID_LINES = [1000, 2000, 3000];
 
 interface CurvePreviewProps {
 	outputDpi: number;
 	curve: Curve;
+	dpi: number;
 }
 
-export default function CurvePreview({ outputDpi, curve }: CurvePreviewProps) {
+export default function CurvePreview({ outputDpi, curve, dpi }: CurvePreviewProps) {
 	const cap = Math.round(outputDpi * curve.limit);
-	const maxY = cap * 1.15;
 	const plotW = WIDTH - PAD_LEFT - PAD_RIGHT;
 	const plotH = HEIGHT - PAD_TOP - PAD_BOTTOM;
 	const toX = (speed: number) => PAD_LEFT + (speed / MAX_SPEED) * plotW;
-	const toY = (dpi: number) => PAD_TOP + plotH - (dpi / maxY) * plotH;
+	const toY = (value: number) => PAD_TOP + plotH - (Math.min(value, Y_MAX) / Y_MAX) * plotH;
 	const offsetX = toX(curve.inputOffset);
 	const baseline = HEIGHT - PAD_BOTTOM;
 
-	// Where the curve reaches half of, then 99 percent of, the extra gain.
-	const halfwaySpeed = curve.inputOffset + Math.log(2) / curve.decayRate;
-	const halfwayDpi = ((1 + curve.limit) / 2) * outputDpi;
-	const cappedSpeed = Math.min(curve.inputOffset + CAP_REACHED_FRACTION / curve.decayRate, MAX_SPEED);
+	const halfwaySpeed = speedAtSens((1 + curve.limit) / 2, curve);
+	const gainCappedSpeed = curve.inputOffset + GAIN_CAPPED_FRACTION / curve.decayRate;
+	const showMouseLine = dpi <= Y_MAX - 120;
 
-	const points: string[] = [];
+	const sensPoints: string[] = [];
+	const gainPoints: string[] = [];
 	for (let i = 0; i <= STEPS; i++) {
 		const speed = (i / STEPS) * MAX_SPEED;
-		const effectiveDpi = naturalSens(speed, curve) * outputDpi;
-		points.push(`${toX(speed).toFixed(1)},${toY(effectiveDpi).toFixed(1)}`);
+		sensPoints.push(`${toX(speed).toFixed(1)},${toY(naturalSens(speed, curve) * outputDpi).toFixed(1)}`);
+		gainPoints.push(`${toX(speed).toFixed(1)},${toY(naturalGain(speed, curve) * outputDpi).toFixed(1)}`);
 	}
 
 	function zoneLabel(from: number, to: number, label: string) {
-		const width = ((to - from) / MAX_SPEED) * plotW;
+		const width = ((Math.min(to, MAX_SPEED) - from) / MAX_SPEED) * plotW;
 		if (width < ZONE_MIN_WIDTH) {
 			return null;
 		}
 		return (
-			<text className="zone" x={toX((from + to) / 2)} y={baseline - 8} textAnchor="middle">
+			<text className="zone" x={toX((from + Math.min(to, MAX_SPEED)) / 2)} y={baseline - 8} textAnchor="middle">
 				{label}
 			</text>
 		);
@@ -56,12 +60,24 @@ export default function CurvePreview({ outputDpi, curve }: CurvePreviewProps) {
 		<figure className="curve">
 			<svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="curve-title">
 				<title id="curve-title">
-					Effective DPI versus mouse speed, from {outputDpi} base up to a {cap} cap
+					Effective DPI versus mouse speed, from {outputDpi} base toward a {cap} gain cap
 				</title>
+
+				{GRID_LINES.map((g) => (
+					<line key={g} className="grid" x1={PAD_LEFT} y1={toY(g)} x2={WIDTH - PAD_RIGHT} y2={toY(g)} />
+				))}
 
 				<line className="ref" x1={PAD_LEFT} y1={toY(outputDpi)} x2={WIDTH - PAD_RIGHT} y2={toY(outputDpi)} />
 				<line className="ref" x1={PAD_LEFT} y1={toY(cap)} x2={WIDTH - PAD_RIGHT} y2={toY(cap)} />
 				<line className="ref" x1={offsetX} y1={PAD_TOP} x2={offsetX} y2={baseline} />
+				{showMouseLine && (
+					<>
+						<line className="mouse" x1={PAD_LEFT} y1={toY(dpi)} x2={WIDTH - PAD_RIGHT} y2={toY(dpi)} />
+						<text className="zone" x={PAD_LEFT + 6} y={toY(dpi) - 4}>
+							your mouse {dpi} dpi
+						</text>
+					</>
+				)}
 
 				<line className="axis" x1={PAD_LEFT} y1={baseline} x2={WIDTH - PAD_RIGHT} y2={baseline} />
 				<line className="axis" x1={PAD_LEFT} y1={PAD_TOP} x2={PAD_LEFT} y2={baseline} />
@@ -70,13 +86,21 @@ export default function CurvePreview({ outputDpi, curve }: CurvePreviewProps) {
 				<text className="tick" x={PAD_LEFT - 8} y={toY(outputDpi) + 3} textAnchor="end">{outputDpi}</text>
 				<text className="tick" x={PAD_LEFT - 8} y={baseline + 3} textAnchor="end">0</text>
 
-				<text className="marker" x={WIDTH - PAD_RIGHT} y={toY(cap) - 5} textAnchor="end">cap on flicks</text>
+				<text className="marker" x={WIDTH - PAD_RIGHT} y={toY(cap) - 5} textAnchor="end">gain cap</text>
 				<text className="marker" x={WIDTH - PAD_RIGHT} y={toY(outputDpi) + 14} textAnchor="end">base sens</text>
 				<text className="marker" x={offsetX + 6} y={PAD_TOP + 9}>accel starts</text>
+				<text
+					className="marker"
+					x={WIDTH - PAD_RIGHT}
+					y={toY(naturalSens(MAX_SPEED, curve) * outputDpi) + 14}
+					textAnchor="end"
+				>
+					applied sens
+				</text>
 
 				{zoneLabel(0, curve.inputOffset, "precise")}
-				{zoneLabel(curve.inputOffset, cappedSpeed, "accelerating")}
-				{zoneLabel(cappedSpeed, MAX_SPEED, "at cap")}
+				{zoneLabel(curve.inputOffset, gainCappedSpeed, "accelerating")}
+				{zoneLabel(gainCappedSpeed, MAX_SPEED, "full accel")}
 
 				{SPEED_TICKS.map((s) => (
 					<g key={s}>
@@ -88,19 +112,29 @@ export default function CurvePreview({ outputDpi, curve }: CurvePreviewProps) {
 					mouse speed (inches per second)
 				</text>
 
-				<polyline className="plot" fill="none" points={points.join(" ")} />
-				<circle
-					className="halfway"
-					cx={toX(halfwaySpeed)}
-					cy={toY(halfwayDpi)}
-					r="4.5"
-				/>
-				<text className="marker" x={toX(halfwaySpeed) + 8} y={toY(halfwayDpi) + 14}>
-					halfway
-				</text>
+				<polyline className="gain" fill="none" points={gainPoints.join(" ")} />
+				<polyline className="plot" fill="none" points={sensPoints.join(" ")} />
+				{halfwaySpeed !== null && halfwaySpeed <= MAX_SPEED - 4 && (
+					<>
+						<circle
+							className="halfway"
+							cx={toX(halfwaySpeed)}
+							cy={toY(((1 + curve.limit) / 2) * outputDpi)}
+							r="4.5"
+						/>
+						<text
+							className="marker"
+							x={toX(halfwaySpeed) + 8}
+							y={toY(((1 + curve.limit) / 2) * outputDpi) + 14}
+						>
+							halfway
+						</text>
+					</>
+				)}
 			</svg>
 			<figcaption>
-				Effective DPI vs. mouse speed. Slow aim stays at your base sens, fast flicks ramp up to the cap.
+				Solid line is the sensitivity the driver applies, dashed is the accel gain it follows.
+				Exact gain mode math on a fixed scale.
 			</figcaption>
 		</figure>
 	);

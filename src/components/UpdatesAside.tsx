@@ -7,6 +7,11 @@ interface Update {
 const UPDATES: Update[] = [
 	{
 		date: "Jul 11, 2026",
+		title: "Driver-exact chart",
+		note: "Plots the true gain mode sensitivity on a fixed scale, with your mouse's raw DPI marked."
+	},
+	{
+		date: "Jul 11, 2026",
 		title: "Crosshair favicon and share cards",
 		note: "The app now has its own browser icon and rich link previews."
 	},
